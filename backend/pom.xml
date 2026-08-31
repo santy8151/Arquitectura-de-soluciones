@@ -1,18 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
+    
     <parent>
         <groupId>com.lasttrack</groupId>
         <artifactId>lasttrack</artifactId>
         <version>0.0.1-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
+    
     <artifactId>lasttrack-backend</artifactId>
     <name>lasttrack-backend</name>
-    <description>API de gestion logistica de ultima milla</description>
+    <description>POM Global Backend - API de gestión logística de última milla</description>
+    <packaging>pom</packaging>
+
     <properties>
         <java.version>21</java.version>
     </properties>
+
+    <modules>
+        <module>src/main/java/application</module>
+        <module>src/main/java/config</module>
+        <module>src/main/java/domain</module>
+        <module>src/main/java/infrastructure</module>
+        <module>src/main/java/presentation</module>
+    </modules>
+
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -42,6 +55,7 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
+
     <build>
         <plugins>
             <plugin>
