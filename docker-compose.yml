@@ -1,0 +1,42 @@
+services:
+  frontend:
+    build: ./frontend
+    container_name: lasttrack-web
+    ports:
+      - "3000:80"
+    depends_on:
+      backend:
+        condition: service_started
+
+  backend:
+    build: ./backend
+    container_name: lasttrack-api
+    environment:
+      DB_URL: jdbc:postgresql://postgres:5432/lasttrack
+      DB_USERNAME: lasttrack
+      DB_PASSWORD: lasttrack
+    ports:
+      - "8080:8080"
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  postgres:
+    image: postgres:16-alpine
+    container_name: lasttrack-postgres
+    environment:
+      POSTGRES_DB: lasttrack
+      POSTGRES_USER: lasttrack
+      POSTGRES_PASSWORD: lasttrack
+    ports:
+      - "5432:5432"
+    volumes:
+      - lasttrack-postgres-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U lasttrack -d lasttrack"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+volumes:
+  lasttrack-postgres-data:

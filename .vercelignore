@@ -1,0 +1,5 @@
+backend/
+ABCD/
+docker-compose.yml
+.env.local
+node_modules/

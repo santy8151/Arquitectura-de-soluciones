@@ -1,0 +1,192 @@
+erDiagram
+    ROLES ||--o{ USUARIOS : tiene
+    USUARIOS ||--o{ INCIDENCIAS : reporta
+
+    CANALES_VENTA ||--o{ PEDIDOS : origina
+
+    CLIENTES ||--o{ DIRECCIONES : posee
+    CLIENTES ||--o{ PEDIDOS : realiza
+    DIRECCIONES ||--o{ PEDIDOS : entrega_en
+    ESTADOS_PEDIDO ||--o{ PEDIDOS : define
+
+    PEDIDOS ||--o{ PEDIDO_DETALLE : contiene
+    PRODUCTOS ||--o{ PEDIDO_DETALLE : incluye
+
+    ALMACENES ||--o{ INVENTARIO : almacena
+    PRODUCTOS ||--o{ INVENTARIO : stock_de
+
+    PEDIDOS ||--o{ ENTREGAS : genera
+    REPARTIDORES ||--o{ ENTREGAS : asignado_a
+    RUTAS ||--o{ ENTREGAS : usa
+    ESTADOS_ENTREGA ||--o{ ENTREGAS : define
+    RUTAS ||--o{ RUTA_PUNTOS : contiene
+
+    PEDIDOS ||--o{ PAGOS : tiene
+    METODOS_PAGO ||--o{ PAGOS : usado_en
+
+    PEDIDOS ||--o{ INCIDENCIAS : puede_generar
+    ENTREGAS ||--o{ TRACKING_EVENTOS : registra
+
+    USUARIOS {
+        int id_usuario PK
+        int id_rol FK
+        string nombre
+        string email
+        string telefono
+        string password
+        boolean estado
+        datetime fecha_creacion
+    }
+    ROLES {
+        int id_rol PK
+        string nombre
+        string descripcion
+    }
+    CLIENTES {
+        int id_cliente PK
+        string nombre
+        string email
+        string telefono
+        datetime fecha_registro
+    }
+    DIRECCIONES {
+        int id_direccion PK
+        int id_cliente FK
+        string alias
+        string direccion
+        string referencia
+        decimal latitud
+        decimal longitud
+        boolean principal
+    }
+    CANALES_VENTA {
+        int id_canal PK
+        string nombre
+        string descripcion
+    }
+    PEDIDOS {
+        int id_pedido PK
+        int id_cliente FK
+        int id_direccion FK
+        int id_canal FK
+        int id_estado_pedido FK
+        string numero_pedido
+        datetime fecha_pedido
+        decimal total
+        string moneda
+        string observaciones
+    }
+    ESTADOS_PEDIDO {
+        int id_estado_pedido PK
+        string nombre
+        string descripcion
+    }
+    PEDIDO_DETALLE {
+        int id_detalle PK
+        int id_pedido FK
+        int id_producto FK
+        int cantidad
+        decimal precio_unitario
+        decimal descuento
+        decimal sub_total
+    }
+    PRODUCTOS {
+        int id_producto PK
+        string nombre
+        string sku
+        string descripcion
+        decimal precio
+        boolean activo
+    }
+    ALMACENES {
+        int id_almacen PK
+        string nombre
+        string direccion
+        decimal latitud
+        decimal longitud
+        boolean activo
+    }
+    INVENTARIO {
+        int id_inventario PK
+        int id_almacen FK
+        int id_producto FK
+        int cantidad_disponible
+        int cantidad_reservada
+        int cantidad_minima
+        datetime ultimo_update
+    }
+    ENTREGAS {
+        int id_entrega PK
+        int id_pedido FK
+        int id_repartidor FK
+        int id_ruta FK
+        int id_estado_entrega FK
+        datetime fecha_asignacion
+        datetime fecha_recoleccion
+        datetime fecha_entrega_estimada
+        datetime fecha_entrega_real
+        string observaciones
+    }
+    ESTADOS_ENTREGA {
+        int id_estado_entrega PK
+        string nombre
+        string descripcion
+    }
+    REPARTIDORES {
+        int id_repartidor PK
+        string nombre
+        string telefono
+        string email
+        string vehiculo
+        string placa
+        boolean activo
+    }
+    RUTAS {
+        int id_ruta PK
+        string nombre
+        decimal distancia_total
+        int tiempo_estimado
+        boolean activo
+    }
+    RUTA_PUNTOS {
+        int id_punto PK
+        int id_ruta FK
+        int orden
+        decimal latitud
+        decimal longitud
+        string direccion
+    }
+    TRACKING_EVENTOS {
+        int id_evento PK
+        int id_entrega FK
+        string tipo
+        decimal latitud
+        decimal longitud
+        json payload
+        datetime fecha
+    }
+    PAGOS {
+        int id_pago PK
+        int id_pedido FK
+        int id_metodo_pago FK
+        decimal monto
+        string moneda
+        string estado
+        string transaccion_id
+        datetime fecha_pago
+    }
+    METODOS_PAGO {
+        int id_metodo_pago PK
+        string nombre
+        string descripcion
+    }
+    INCIDENCIAS {
+        int id_incidencia PK
+        int id_pedido FK
+        int id_usuario FK
+        string tipo
+        string descripcion
+        string estado
+        datetime fecha_creacion
+        datetime fecha_resolucion
+    }
